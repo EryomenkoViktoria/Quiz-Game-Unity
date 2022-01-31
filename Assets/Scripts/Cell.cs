@@ -25,6 +25,8 @@ namespace QuizGame.Cells
             generatorTaskGame.OnCorrectChoice += CorrectChoice;
         }
 
+        
+
         private void OnDisable()
         {
             generatorTaskGame.OnClearGameField -= DestroyCellButton;
@@ -54,6 +56,7 @@ namespace QuizGame.Cells
         private void DestroyCellButton()
         {
             gameObject.SetActive(false);
+            
         }
 
         private void CorrectChoice(Sprite sprite)

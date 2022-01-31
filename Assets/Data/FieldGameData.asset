@@ -20,3 +20,5 @@ MonoBehaviour:
     cells: 3
   - levelNumber: 3
     cells: 3
+  - levelNumber: 4
+    cells: 3

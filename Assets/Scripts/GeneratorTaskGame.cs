@@ -46,18 +46,20 @@ namespace QuizGame.Core
 
         private int checkSubLevel { get; set; }
 
-        private int creatGameCellsLevelOne { get; set; }
-        private int creatGameCellsLevelTwo { get; set; }
-        private int creatGameCellsLevelThree { get; set; }
+        //private int creatGameCellsLevelOne { get; set; }
+        //private int creatGameCellsLevelTwo { get; set; }
+        //private int creatGameCellsLevelThree { get; set; }
 
         private bool elementRepeat { get; set; }
 
         private string checkerFind { get; set; }
 
+
+
         private void Start()
         {
             AssignmentOfData();
-            CheckLevelsInData();
+            //CheckLevelsInData();
             GeneratorCells(levelNow);
         }
         
@@ -68,42 +70,53 @@ namespace QuizGame.Core
             checkSubLevel = fieldData.SubLevel;
         }
 
-        private void CheckLevelsInData()
-        {
-            creatGameCellsLevelOne = levelData[0].LevelNumber * levelData[0].Cells;
-            creatGameCellsLevelTwo = levelData[1].LevelNumber * levelData[1].Cells;
-            creatGameCellsLevelThree = levelData[2].LevelNumber * levelData[2].Cells;
-        }
-
+        //private void CheckLevelsInData()
+        //{
+        //    creatGameCellsLevelOne = levelData[0].LevelNumber * levelData[0].Cells;
+        //    creatGameCellsLevelTwo = levelData[1].LevelNumber * levelData[1].Cells;
+        //    creatGameCellsLevelThree = levelData[2].LevelNumber * levelData[2].Cells;
+        //}
+        // исправить привязку к уровню
         private void GeneratorCells(int level)
         {
-            switch (level)
-            {
-                case 0:
-                    CreatePlayingField(creatGameCellsLevelOne);
-                    break;
-                case 1:
-                    CreatePlayingField(creatGameCellsLevelTwo);
-                    break;
-                case 2:
-                    CreatePlayingField(creatGameCellsLevelThree);
-                    break;
-                case 3:
-                    OnGameOver?.Invoke();
-                    break;
-                default:
-                    Debug.Log("LEVEL ERROR");
-                    GeneratorCells(0);
-                    break;
-            }
+            
+            if (level >= levelData.Count) 
+                OnGameOver?.Invoke();
+            else
+                CreatePlayingField(levelData[level].LevelNumber * levelData[level].Cells);
+
+            //switch (level)
+            //{
+            //    case 0:
+            //        CreatePlayingField(creatGameCellsLevelOne);
+            //        break;
+            //    case 1:
+            //        CreatePlayingField(creatGameCellsLevelTwo);
+            //        break;
+            //    case 2:
+            //        CreatePlayingField(creatGameCellsLevelThree);
+            //        break;
+            //    case 3:
+            //        OnGameOver?.Invoke();
+            //        break;
+            //    default:
+            //        Debug.Log("LEVEL ERROR");
+            //        GeneratorCells(0);
+            //        break;
+            //}
+        }
+
+        private void NonRepeatingArray(List<LevelData> levelData, List<CardData> cardData, int size)
+        {
+
         }
 
         private void CreatePlayingField(int sizeField)
-        {
+        { 
             int cellRecording = 0;
             do
             {
-                var symbolConvert = cardData[Random.Range(0, cardData.Count)];
+                var symbolConvert = cardData[Random.Range(0, cardData.Count)]; //rename
                 for (int a = 0; a < elementsPlayingField.Count; a++)
                 {
                     if (symbolConvert == elementsPlayingField[a])
@@ -128,31 +141,31 @@ namespace QuizGame.Core
 
             FindesCells();
         }
-
+        // поиск повтора  
         
         private void FindesCells()
         {
-            var FindTaskIndex = elementsPlayingField[Random.Range(0, elementsPlayingField.Count)];
+            var taskText = elementsPlayingField[Random.Range(0, elementsPlayingField.Count)];
 
             if(numberRepeatCheck.Count > 1) 
             {
                 for (int i = 0; i < numberRepeatCheck.Count; i++)
                 {
-                    if (FindTaskIndex == numberRepeatCheck[i])
+                    if (taskText == numberRepeatCheck[i])
                     {
                         elementsPlayingField.RemoveAt(i);
-                        FindTaskIndex = elementsPlayingField[Random.Range(0, elementsPlayingField.Count)];
+                        taskText = elementsPlayingField[Random.Range(0, elementsPlayingField.Count)];
                     }
                 }
             }
 
-            OnSetNameFind?.Invoke(FindTaskIndex.Identifier.ToString());
-            numberRepeatCheck.Add(FindTaskIndex);
+            OnSetNameFind?.Invoke(taskText.Identifier.ToString());
+            numberRepeatCheck.Add(taskText);
 
             if(numberRepeatCheck.Count > 1)
                 numberRepeatCheck.RemoveAt(0);
 
-            checkerFind = FindTaskIndex.Identifier;
+            checkerFind = taskText.Identifier;
         }
 
         internal async void CharacterSelectionCheck(Sprite indexSprite)

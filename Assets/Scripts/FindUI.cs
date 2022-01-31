@@ -11,18 +11,35 @@ namespace QuizGame.UI
     {
         [SerializeField]
         private TextMeshProUGUI task;
+
         [SerializeField]
-        private GameObject panelRestart, loadPanel;
+        private GameObject restartPanel, loadPanel;
         [SerializeField]
         private Button restartButton;
         GeneratorTaskGame generatorTaskGame;
 
-        private void Start()
+        private void OnValidate()
         {
-            restartButton.onClick.AddListener(RestartGame);
+            
+        }
+
+        private void Awake()
+        {
+
             generatorTaskGame = FindObjectOfType<GeneratorTaskGame>();
+        }
+
+        private void OnEnable()
+        {
+
+            restartButton.onClick.AddListener(RestartGame);
+
             generatorTaskGame.OnSetNameFind += GenerationTask;
             generatorTaskGame.OnGameOver += RestartPanelActivation;
+        }
+
+        private void Start()
+        {
         }
 
         private void OnDisable()
@@ -34,11 +51,12 @@ namespace QuizGame.UI
         private void GenerationTask(string nameFind)
         {
             task.text = "Find " + nameFind;
+
         }
 
         private void RestartPanelActivation()
         {
-            panelRestart.SetActive(true);
+            restartPanel.SetActive(true);
         }
 
         private async void RestartGame()

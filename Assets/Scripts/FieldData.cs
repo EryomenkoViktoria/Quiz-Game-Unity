@@ -9,11 +9,17 @@ namespace QuizGame.Data
         [SerializeField]
         private int subLevels;
 
+        //[SerializeField]
+        //private int summLevels;
+
         [SerializeField]
         private List<LevelData> levelData;
 
         internal int SubLevel => subLevels;
 
+        //internal int SummLevels => summLevels;
+
         internal List<LevelData> LevelData => levelData;
+
     }
 }

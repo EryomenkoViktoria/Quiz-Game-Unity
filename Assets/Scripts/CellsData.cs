@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace QuizGame.Data
 {
-    [CreateAssetMenu(fileName = "New Cells Data", menuName = "Cells Data", order = 10)]
+    [CreateAssetMenu(fileName = "New Cells Data", menuName = "Cells Data", order = 10)] // для отображения в меню при создании даты данных
     public class CellsData : ScriptableObject
     {
         [SerializeField]
